@@ -1,0 +1,264 @@
+declare
+n1 number(2);
+n2 number(2);
+sum1 number(5);
+begin
+n1 := &num1;
+n2 := &num2;
+addition(n1,n2,sum1);
+dbms_output.put_line('sum is '|| sum1);
+end;
+/
+
+
+SQL> SET SERVEROUTPUT ON;
+
+ DECLARE
+        n1 NUMBER(2);
+        n2 NUMBER(2);
+        sum1 NUMBER(5);
+    BEGIN
+        n1 := &num1;
+        n2 := &num2;
+
+        addition(n1, n2, sum1);
+
+        DBMS_OUTPUT.PUT_LINE('Sum is: ' || sum1);
+    END;
+/
+
+create or replace procedure l(
+a in number,
+b in number
+) is 
+begin
+if a>b then
+dbms_output.put_line('Largest number is ' ||a);
+
+else
+dbms_output.put_line('Largest number is ' ||b);
+end if;
+end;
+/
+
+
+
+begin
+l(10,40)
+end;
+/
+
+
+
+CREATE OR REPLACE PROCEDURE emp_name(
+    E_ID IN NUMBER
+)
+IS
+    e_name VARCHAR2(50);
+BEGIN
+    SELECT SNAME INTO e_name
+    FROM S
+    WHERE SNO = E_ID;
+
+    DBMS_OUTPUT.PUT_LINE('Employee Name: ' || e_name);
+END;
+/
+
+
+SELECT LAST_NAME FROM EMP WHERE EMP_NO = E_ID;
+
+
+
+
+CREATE OR REPLACE PROCEDURE SQUARE_NO(
+N IN NUMBER
+)
+IS 
+RESULT NUMBER;
+BEGIN
+RESULT := N * N;
+DBMS_OUTPUT.PUT_LINE('SQUARE IS '|| RESULT);
+END;
+/
+
+
+BEGIN
+RESULT = SQUARE_NO(10);
+DBMS_OUTPUT.PUT_LINE('SQUARE IS '|| RESULT);
+END;
+/
+
+
+
+CREATE OR REPLACE PROCEDURE INCREASE_SAL(
+E_NO IN NUMBER,
+INC_NUMBER IN NUMBER
+)
+IS 
+BEGIN
+UPDATE EMP
+SET SALARY = SALARY + INC_NUMBER
+WHERE EMP_NO = E_NO;
+DBMS_OUTPUT.PUT_LINE('SALARY UPDATE ');
+END;
+/
+
+ 
+
+BEGIN
+S = INCREASE_SAL(7839,2000);
+DBMS_OUTPUT.PUT_LINE(S);
+
+END;
+ /
+
+
+create or replace get_emp_id (fname in varchar(100))
+is
+name varchar
+begin
+select  sno into name
+from s
+where fname = sname;
+DBMS_OUTPUT.PUT_LINE('sno is : ' || name);
+end;
+/
+
+
+
+CREATE TABLE E (
+    EMP_NO NUMBER PRIMARY KEY,
+    FIRST_NAME VARCHAR2(50),
+    LAST_NAME VARCHAR2(50),
+    SALARY NUMBER
+);
+
+
+INSERT INTO  VALUES (101, 'John', 'Smith', 5000);
+INSERT INTO E VALUES (102, 'Alice', 'Jones', 4000);
+INSERT INTO E VALUES (104, 'Shantanu', 'King', 3000);
+INSERT INTO E VALUES (105, 'Teena', 'King', 3200);
+INSERT INTO E VALUES (106, 'Sakshi', 'King', 2500);
+INSERT INTO E VALUES (107, 'Sampada', 'King', 4000);
+INSERT INTO E VALUES (108, 'Pariniti', 'King', 3200);
+COMMIT;
+----------------------------------------------------------
+
+ CREATE OR REPLACE FUNCTION C_AREA(RADIUS NUMBER)
+RETURN NUMBER
+ IS
+ PI CONSTANT NUMBER(7,3) := 3.14;
+AREA NUMBER(7,3);
+BEGIN
+AREA := PI * RADIUS * RADIUS;
+DBMS_OUTPUT.PUT_LINE('AREA OF CIRCLE : ' || AREA);
+END;
+ /
+
+BEGIN
+DBMS_OUTPUT.PUT_LINE(C_AREA(21));
+END;
+/
+
+DECLARE
+V_AREA NUMBER(7,3);
+BEGIN
+V_AREA := C_AREA(12);
+DBMS_OUTPUT.PUT_LINE(V_AREA);
+END;
+/
+
+-------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION e_count(dept_id NUMBER)
+RETURN NUMBER
+IS
+    total NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO total 
+    FROM EMP 
+    WHERE DEPTNO = dept_id;
+
+    RETURN total;
+
+EXCEPTION 
+WHEN OTHERS THEN
+RETURN 0;
+
+END;
+/
+
+------------------------------------------------------------
+
+
+CREATE OR REPLACE FUNCTION count_words(sentence VARCHAR2)
+RETURN NUMBER
+IS
+    word_count NUMBER := 0;
+BEGIN
+    IF sentence IS NULL OR TRIM(sentence) = '' THEN
+        RETURN 0;
+    END IF;
+
+    -- Count spaces
+    FOR i IN 1..LENGTH(sentence) LOOP
+        IF SUBSTR(sentence, i, 1) = ' ' THEN
+            word_count := word_count + 1;
+        END IF;
+    END LOOP;
+
+    RETURN word_count + 1;
+END;
+/
+
+
+SELECT count_words('Oracle SQL is powerful') FROM dual;
+
+
+------------------------------------------------------
+
+DECLARE
+ N NUMBER := 10;
+SUM NUMBER := 0;
+BEGIN
+FOR I IN 1..N LOOP
+ SUM := SUM + I;
+END LOOP;
+DBMS_OUTPUT_PUT_LINE('SUM : '|| SUM);
+ END;
+  /
+
+
+
+
+DECLARE
+    total NUMBER := 0;
+BEGIN
+    FOR rec IN (SELECT SALARY FROM EMP) LOOP
+        total := (total + rec.SALARY) / 9;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(total);
+END;
+/
+
+
+
+
+------------------------------------------------------------------------------------------------------
+
+
+CREATE VIEW student_view2 AS
+SELECT sno, sname, salary
+FROM S
+WHERE salary > 25000;
+
+
+
+
+
+
+
+create view emp_high as
+select name,salary
+ from instructor
+ where salary < 70000;
