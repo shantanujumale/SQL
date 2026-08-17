@@ -1,0 +1,178 @@
+CREATE TABLE U(
+id INT PRIMARY KEY,
+NAME VARCHAR(20) NOT NULL,
+MAIL VARCHAR(29) NOT NULL,
+ GENDER VARCHAR(10) CHECK('MALE','FEMALE','OTHER'),
+ DATE_OF_BIRTH DATE,
+CREATE_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE A (
+    ID NUMBER PRIMARY KEY,
+    USER_ID NUMBER,
+    STREET VARCHAR2(255),
+    CITY VARCHAR2(100),
+    STATE VARCHAR2(100),
+    PINCODE VARCHAR2(10),
+    FOREIGN KEY (USER_ID) REFERENCES U(ID)
+);
+
+
+INSERT INTO A VALUES (1,1,'MG Road','Nagpur','Maharashtra','440001');
+
+INSERT INTO A VALUES (2,2,'FC Road','Pune','Maharashtra','411001');
+
+INSERT INTO A VALUES (3,3,'Brigade Road','Bangalore','Karnataka','560001');
+
+INSERT INTO A VALUES (4,4,'Anna Salai','Chennai','Tamil Nadu','600002');
+
+INSERT INTO A VALUES (5,5,'Park Street','Kolkata','West Bengal','700016');
+
+INSERT INTO A VALUES (6,6,'Banjara Hills','Hyderabad','Telangana','500034');
+
+INSERT INTO A VALUES (7,7,'Connaught Place','Delhi','Delhi','110001');
+
+INSERT INTO A VALUES (8,8,'Law Garden','Ahmedabad','Gujarat','380009');
+
+INSERT INTO A VALUES (9,9,'Hazratganj','Lucknow','Uttar Pradesh','226001');
+
+INSERT INTO A VALUES (10,10,'Marine Drive','Mumbai','Maharashtra','400020');
+
+
+
+
+
+ CREATE TABLE ADMIN_U(
+ ID INT PRIMARY KEY,
+ NAME VARCHAR(10),
+ EMAIL VARCHAR(10),
+  GENDER VARCHAR(10) CHECK(GENDER IN ('MALE','FEMALE','OTHER')),
+ DATE_OF_BIRTH DATE,
+ SALARY INT
+  );
+
+
+INSERT INTO ADMIN_U VALUES (101,'Anil Kumar','anil@com','MALE',DATE '1985-04-12',60000);
+
+INSERT INTO ADMIN_U VALUES (102,'Pooja','pooa@.com','FEMALE',DATE '1992-09-20',58000);
+
+INSERT INTO ADMIN_U VALUES (104,'Fatima','fatim@.com','FEMALE',DATE '1990-06-30',62000);
+
+
+INSERT INTO ADMIN_U VALUES (105,'Amit','ait@.com','MALE',DATE '1991-02-10',52000);
+
+INSERT INTO ADMIN_U VALUES (106,'Neha','nea@.com','FEMALE',DATE '1993-07-18',55000);
+
+INSERT INTO ADMIN_U VALUES (107,'Rohit','roit@.com','MALE',DATE '1988-03-22',50000);
+
+INSERT INTO ADMIN_U VALUES (108,'Kiran','kian@.com','OTHER',DATE '1995-11-05',48000);
+
+INSERT INTO ADMIN_U VALUES (109,'Vijay','viay@.com','MALE',DATE '1987-09-14',53000);
+
+INSERT INTO ADMIN_U VALUES (110,'Pooja','pooa@.com','FEMALE',DATE '1994-06-30',51000);
+
+INSERT INTO ADMIN_U VALUES (111,'Arjun','arjn@.com','MALE',DATE '1992-04-21',56000);
+INSERT INTO ADMIN_U VALUES (112,'Meena','meena@.com','FEMALE',DATE '1990-12-11',54000);
+
+
+
+
+Aim: Consider the problem definition in practical 1. Write and execute SQL functions- aggregate, numeric, date, string, and                        conversion for the following queries:
+
+Solution:
+a) Find the average salary of instructors in the Computer Science department:
+SELECT AVG(I.Salary) AS AverageSalary
+FROM Instructor I
+JOIN Department D ON I.DeptID = D.DeptID
+WHERE D.Name = 'Computer Science';
+
+b) Find the average salary in each department:
+SELECT D.Name AS Department, AVG(I.Salary) AS AverageSalary
+FROM Department D
+JOIN Instructor I ON D.DeptID = I.DeptID
+GROUP BY D.Name;
+
+c) What is the total salary of all teachers earning more than 30K?
+SELECT SUM(Salary) AS TotalSalary
+FROM Instructor
+WHERE Salary > 30000;
+
+d) List the number of students enrolled in each course:
+SELECT C.CourseID, C.Title, COUNT(E.StudentID) AS EnrolledStudents
+FROM Course C
+LEFT JOIN Enrollment E ON C.CourseID = E.CourseID
+GROUP BY C.CourseID, C.Title;
+
+e) Find the names of all departments whose building name includes the substring "Symbio":
+SELECT Name
+FROM Department
+WHERE Location LIKE '%Symbio%';
+
+f) Find the names of the departments whose names contain the string "sci" as a substring, regardless of the case:
+SELECT Name
+FROM Department
+WHERE LOWER(Name) LIKE '%sci%';
+
+
+g) Display the length of the name of all the students:
+SELECT Name, LENGTH(Name) AS NameLength
+FROM Student;
+
+h) Retrieve total number of instructors:
+SELECT COUNT(*) AS TotalInstructors
+FROM Instructor;
+
+i) Add hiredate column in the instructor table, insert 4 rows, and display names of instructors working for the past 5 years:
+
+Add hiredate column
+ALTER TABLE Instructor ADD COLUMN HireDate DATE;
+
+INSERT INTO Instructor (Name, DeptID, Salary, isHOD, HireDate) VALUES
+('John Doe', 1, 75000, false, '2019-01-15'),
+('Jane Smith', 2, 80000, true, '2018-06-30'),
+('Bob Johnson', 3, 70000, false, '2021-03-01'),
+('Alice Brown', 1, 72000, false, '2023-11-01');
+
+Display names of instructors working for the past 5 years
+SELECT Name
+FROM Instructor
+WHERE HireDate <= CURRENT_DATE - INTERVAL '5 years';
+
+j) Display the list of instructors who have joined before 30th June 90 or after 31st Dec 90:
+SELECT Name
+FROM Instructor
+WHERE HireDate < '1990-06-30' OR HireDate > '1990-12-31';
+
+k) Display name of those instructors who are going to retire 01-Jan-24 if the maximum job period is 18 years:
+SELECT Name
+FROM Instructor
+WHERE HireDate <= '2006-01-01';  -- 18 years before 2024-01-01
+
+
+l) Display those instructors whose salary contains at least 4 digits:
+SELECT Name
+FROM Instructor
+WHERE LENGTH(CAST(FLOOR(Salary) AS VARCHAR)) >= 4;
+
+m) Print a list of instructors displaying 'Less Salary' if less than 60000, 'Exact Salary' if exactly 60000, and 'More Salary' if greater than 60000:
+SELECT Name,
+    CASE
+        WHEN Salary < 60000 THEN 'Less Salary'
+        WHEN Salary = 60000 THEN '
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO I VALUES (101,'Amit',10,50000);
+INSERT INTO I VALUES (102,'Ravi',20,40000);
+INSERT INTO I VALUES (103,'Sita',10,60000);
+INSERT INTO I VALUES (104,'Neha',30,45000);
+INSERT INTO I VALUES (105,'Rahul',20,35000);
