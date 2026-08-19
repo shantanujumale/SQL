@@ -1,0 +1,8 @@
+CREATE TABLE s (
+    SNO NUMBER(5) PRIMARY KEY,
+    SNAME VARCHAR2(50),
+    EMAIL VARCHAR2(100),
+    SALARY NUMBER(10,2)
+);
+
+select * from s;
